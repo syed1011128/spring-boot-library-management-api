@@ -1,6 +1,7 @@
 package dev.safi.library.controller;
 
 import dev.safi.library.entity.Book;
+import dev.safi.library.payload.ApiResponse;
 import dev.safi.library.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,32 +18,58 @@ public class BookController {
     }
 
     @PostMapping
-    public Book addBook(@RequestBody Book book) {
-        return service.saveBook(book);
+    public ApiResponse<Book> addBook(@RequestBody Book book) {
+        return new ApiResponse<>(
+                true,
+                "Book fetched successfully",
+                service.saveBook(book)
+        );
     }
 
     @GetMapping
-    public List<Book> getAllBooks() {
-        return service.getAllBooks();
+    public ApiResponse<List<Book>> getAllBooks() {
+        return new ApiResponse<>(
+                true,
+                "Books fetched successfully",
+                service.getAllBooks()
+        );
     }
 
     @GetMapping("/{id}")
-    public Book getBookById(@PathVariable Long id) {
-        return service.getBookById(id);
+    public ApiResponse<Book> getBookById(@PathVariable Long id) {
+        return new ApiResponse<>(
+                true,
+                "book fetched successfully",
+                service.getBookById(id)
+        );
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
-        return service.updateBook(id, book);
+    public ApiResponse<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
+        return new ApiResponse<>(
+                true,
+                "Book updated successfully",
+                service.updateBook(id, book)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable Long id) {
+    public ApiResponse<String> deleteBook(@PathVariable Long id) {
         service.deleteBook(id);
+        return new ApiResponse<>(
+                true,
+                "Book deleted successfully",
+                "Deleted"
+        );
     }
 
     @DeleteMapping
-    public void deleteAllBooks() {
+    public ApiResponse<String> deleteAllBooks() {
         service.deleteAllBooks();
+        return new ApiResponse<>(
+                true,
+                "All book deleted successfully",
+                "Deleted"
+        );
     }
 }
